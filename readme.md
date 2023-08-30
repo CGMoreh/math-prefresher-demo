@@ -23,9 +23,9 @@
     * Allows you to revert back to old versions easily
     * Comparing workflows (in general):
 
-    | Cloud Storage (e.g. Google Drive, Dropbox)| Git|
+    | Cloud Storage| Git|
     |--|--|
-    | All the changes you make in your computer sync automatically (with some *loss of control*…)| 1. Make multiple changes across different files within a project folder |
+    | Examples include Google Drive and Dropbox. All the changes you make in your computer sync automatically (with some *loss of control*…)| 1. Make multiple changes across different files within a project folder |
     | | 2. Choose some of updated files to create a new version (`git add`)|
     | | 3. Write a message describing the changes to record the version (`git commit`)|
     | | 4. You send the new version to the “remote repository,” a clone of your project stored somewhere in the internet (`git push`)|
