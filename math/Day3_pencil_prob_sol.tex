@@ -1,0 +1,127 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+
+\input{pp_preamble.tex}
+
+\begin{document}
+
+\setcounter{section}{3}
+
+\begin{exercise}
+\protect\hypertarget{exr:unnamed-chunk-19}{}\label{exr:unnamed-chunk-19}Let \(f(x,y)=x^3 y^4 +e^x -\log y\). What are the following partial derivaitves?
+
+\begin{align*}
+\frac{\partial f}{\partial x}(x,y) &=\\
+\frac{\partial f}{\partial y}(x,y) &=\\
+\frac{\partial^2 f}{\partial x^2}(x,y) &=\\
+\frac{\partial^2 f}{\partial x \partial y}(x,y) &= 
+\end{align*}
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item $3x^2y^4 + e^x$
+\item $4x^3y^3 - \frac{1}{y}$
+\item $6xy^4 + e^x$
+\item $12x^2y^3$
+\end{enumerate}
+\end{answer}
+
+\begin{exercise}[Antiderivative]
+\protect\hypertarget{exr:unnamed-chunk-21}{}\label{exr:unnamed-chunk-21}
+
+Find the antiderivative of the following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(f(x) = \frac{1}{x^2}\)
+\item
+  \(f(x) = 3e^{3x}\)
+\end{enumerate}
+
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item $F(x) = -\frac{1}{x} + C$
+\item $F(x) = e^{3x} + C$
+\end{enumerate}
+\end{answer}
+
+\begin{exercise}
+\protect\hypertarget{exr:unnamed-chunk-29}{}\label{exr:unnamed-chunk-29}What is the value of \(\int\limits_{-2}^2 e^x e^{e^x} dx\)?
+\end{exercise}
+
+\begin{answer}
+$e^{e^2} - e^{e^{-2}}$
+\end{answer}
+
+
+\begin{exercise}[Definite integral shortcuts]
+\protect\hypertarget{exr:unnamed-chunk-30}{}\label{exr:unnamed-chunk-30}
+
+Simplify the following definite intergrals.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(\int\limits_1^1 3x^2 dx =\)
+\item
+  \(\int\limits_0^4 (2x+1)dx=\)
+\item
+  \(\int\limits_{-2}^0 e^x e^{e^x} dx + \int\limits_0^2 e^x e^{e^x} dx =\)
+\end{enumerate}
+
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item $0$
+\item $20$
+\item $e^{e^2} - e^{e^{-2}}$
+\end{enumerate}
+\end{answer}
+
+\begin{example}[Integration by Substitutiton II]
+\protect\hypertarget{exm:intsub2}{}\label{exm:intsub2}Simplify \[\int\limits_0^1 \frac{5e^{2x}}{(1+e^{2x})^{1/3}}dx.\]
+\end{example}
+
+\begin{answer}
+When an expression is raised to a power, it is often helpful to use this expression as the basis for a substitution.  So, let $u=1+e^{2x}$. Then $du=2e^{2x}dx$ and we can set $5e^{2x}dx=5du/2$.    Additionally, $u=2$ when $x=0$ and $u=1+e^2$ when $x=1$.  Substituting all of this in, we get
+\begin{align*}
+\int\limits_0^1 \frac{5e^{2x}}{(1+e^{2x})^{1/3}}dx
+			&= \frac{5}{2}\int\limits_2^{1+e^2}\frac{du}{u^{1/3}}\\
+			&= \frac{5}{2}\int\limits_2^{1+e^2} u^{-1/3}du\\
+			&= \left. \frac{15}{4} u^{2/3} \right|_2^{1+e^2}\\
+			&= 9.53
+\end{align*}
+
+\end{answer}
+
+\begin{example}[Integration by Parts]
+\protect\hypertarget{exm:unnamed-chunk-31}{}\label{exm:unnamed-chunk-31}Simplify the following integrals. These seemingly obscure forms of integrals come up often when integrating distributions.
+
+\[\int x e^{ax} dx\]
+\end{example}
+
+\begin{answer}
+Let $u=x$ and $\frac{dv}{dx} = e^{ax}$.  Then $du=dx$ and $v=(1/a)e^{ax}$. Substituting this into the integration by parts formula, we obtain 	
+\begin{eqnarray}
+\int x e^{ax} dx &=& u v - \int v du\nonumber\\
+				&=&x\left( \frac{1}{a}e^{ax}\right) -\int\frac{1}{a}e^{ax}dx\nonumber\\
+				&=&\frac{1}{a}xe^{ax}-\frac{1}{a^2}e^{ax}+c\nonumber
+\end{eqnarray}
+
+\end{answer}
+
+\end{document}

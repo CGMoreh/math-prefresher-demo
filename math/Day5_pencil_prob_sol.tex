@@ -1,0 +1,178 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+
+\input{pp_preamble.tex}
+
+\begin{document}
+
+\setcounter{section}{6}
+
+\begin{exercise}[Vector Algebra]
+\protect\hypertarget{exr:vectors1}{}\label{exr:vectors1}
+
+Let \(u = \begin{pmatrix} 7&1&-5&3\end{pmatrix}\), \(v = \begin{pmatrix} 9&-3&2&8 \end{pmatrix}\), \(w = \begin{pmatrix} 1&13& -7&2 &15 \end{pmatrix}\), and \(c = 2\). Calculate the following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \(u-v\)
+\item
+  \(cw\)
+\item
+  \(u \cdot v\)
+\item
+  \(w \cdot v\)
+\end{enumerate}
+
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item $\begin{pmatrix} -2 &4&-7&-5 \end{pmatrix}$
+\item $\begin{pmatrix} 2 &26&-14&4&30 \end{pmatrix}$
+\item 63 -3 -10 + 24 = 74
+\item undefined
+\end{enumerate}
+\end{answer}
+
+\begin{example}
+\underline{Matrix Addition}
+\protect\hypertarget{exm:matrixaddition}{}\label{exm:matrixaddition}\[{\bf A}=\begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}, \qquad
+            {\bf B}=\begin{pmatrix} 1 & 2 & 1 \\ 2 & 1 & 2 \end{pmatrix}\]
+\({\bf A+B}=\)
+
+\underline{Scalar Multiplication}
+\protect\hypertarget{exm:scalarmulti}{}\label{exm:scalarmulti}\(s=2, \qquad {\bf A}=\begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}\)
+
+\(s {\bf A} =\)
+
+\underline{Matrix Multiplication}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \(\begin{pmatrix} a&b\\c&d\\e&f \end{pmatrix} \begin{pmatrix} A&B\\C&D \end{pmatrix}  =\)
+\item
+  \(\begin{pmatrix} 1&2&-1\\3&1&4 \end{pmatrix} \begin{pmatrix} -2&5\\4&-3\\2&1\end{pmatrix} =\)
+\end{enumerate}
+\end{example}
+
+\begin{answer}
+\begin{align*}
+{\bf A+B} &= \begin{pmatrix} 2 & 4 & 4 \\ 6 & 6 & 8 \end{pmatrix} \\
+s {\bf A} &= \begin{pmatrix} 2 & 4 & 6 \\ 8 & 10 & 12 \end{pmatrix} \\
+\begin{pmatrix} a&b\\c&d\\e&f \end{pmatrix} \begin{pmatrix} A&B\\C&D \end{pmatrix}   &= \begin{pmatrix} aA+bC&aB+bD\\cA+dC&cB+dD\\eA+fC&eB+fD \end{pmatrix} \\
+\begin{pmatrix} 1&2&-1\\3&1&4 \end{pmatrix} \begin{pmatrix} -2&5\\4&-3\\2&1\end{pmatrix} &=
+\begin{pmatrix} 1(-2)+2(4)-1(2)&1(5)+2(-3)-1(1)\\
+3(-2)+1(4)+4(2)&3(5)+1(-3)+4(1)\end{pmatrix} =
+\begin{pmatrix} 4&-2\\6&16\end{pmatrix}
+\end{align*}
+\end{answer}
+
+\newpage
+\begin{exercise}[Linear Independence]
+\protect\hypertarget{exr:linearindep1}{}\label{exr:linearindep1}
+
+Are the following sets of vectors linearly independent?
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \[{\bf v}_1 = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} , {\bf v}_2 = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} , {\bf v}_3 = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix} \]
+\item
+  \[{\bf v}_1 = \begin{pmatrix} 2 \\ 2 \\ 1 \end{pmatrix} , {\bf v}_2 = \begin{pmatrix} -4 \\ 6 \\ 5 \end{pmatrix} , {\bf v}_3 = \begin{pmatrix} -2 \\ 8 \\ 6 \end{pmatrix} \]
+\end{enumerate}
+
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item Yes
+\item No
+\end{enumerate}
+\end{answer}
+
+\begin{exercise}[Augmented Matrix]
+\protect\hypertarget{exr:augmatrix}{}\label{exr:augmatrix}Create an augmented matrix that represent the following system of equations:
+
+\[2x_1 -7x_2 + 9x_3 -4x_4 = 8\]
+\[41x_2 + 9x_3 -5x_6 = 11\]
+\[x_1 -15x_2 -11x_5 = 9\]
+\end{exercise}
+
+\begin{answer}
+$\begin{pmatrix}
+2 & -7 & 9 & -4 & 0 & 0| & 8\\
+0 & 41 & 9 & 0 & 0 & 5 | & 11\\
+1 & -15 & 0 & 0 & -11 & 0 | & 9
+\end{pmatrix}$
+\end{answer}
+
+\begin{exercise}[Solving Systems of Equations]
+\protect\hypertarget{exr:solvesys1}{}\label{exr:solvesys1}Put the following system of equations into augmented matrix form. Then, using Gaussian or Gauss-Jordan elimination, solve the system of equations by putting the matrix into row echelon or reduced row echelon form.
+
+\[
+  1. \begin{cases}
+               x + y + 2z = 2\\
+               3x - 2y + z = 1\\
+               y - z = 3
+            \end{cases}
+               \]
+
+\[
+  2. \begin{cases}
+               2x + 3y - z = -8\\
+               x + 2y - z = 12\\
+             -x -4y + z = -6
+            \end{cases}
+               \]
+\end{exercise}
+
+\begin{answer}
+\begin{enumerate}
+\item $x = 2, y = 2, z = -1$
+\item $x = -17, y = -3, z = -35$
+\end{enumerate}
+\end{answer}
+
+\begin{exercise}[Rank of Matrices]
+\protect\hypertarget{exr:rank}{}\label{exr:rank}Find the rank of each matrix below:
+
+(Hint: transform the matrices into row echelon form. Remember that the number of nonzero rows of a matrix in row echelon form is the rank of that matrix)
+
+1.\(\begin{pmatrix} 1 & 1 & 2 \\ 2 & 1 & 3 \\ 1 & 2 & 3 \end{pmatrix}\)
+
+\bigskip
+
+2.\(\begin{pmatrix} 1 & 3 & 3 & -3 & 3\\ 1 & 3 & 1 & 1 & 3 \\ 1 & 3 & 2 & -1 & -2 \\ 1 & 3 & 0 & 3 & -2 \end{pmatrix}\)
+\end{exercise}
+
+\begin{answer}
+\begin{enumerate}
+\item 2
+\item 3
+\end{enumerate}
+\end{answer}
+
+\begin{exercise}[Calculate Inverse using Determinant Formula]
+\protect\hypertarget{exr:calcinverse}{}\label{exr:calcinverse}Caculate the inverse of A
+
+\[A = \begin{pmatrix}
+            3 & 5\\
+            -7 & 2\\
+        \end{pmatrix}\]
+\end{exercise}
+
+\begin{answer}
+$\begin{pmatrix}
+\frac{2}{41} & \frac{-5}{41}\\
+\frac{7}{41} & \frac{3}{41}\\
+\end{pmatrix}$
+\end{answer}
+
+\end{document}

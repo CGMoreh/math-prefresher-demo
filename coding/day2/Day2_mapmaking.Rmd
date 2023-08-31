@@ -1,0 +1,379 @@
+---
+title: "Making Maps"
+author: "María Ballesteros"
+date: "2022-08-15"
+output: html_document
+---
+
+A special thanks to Chris Kenny for putting together the original version of this document. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Set up
+
+Next we install and load the packages.
+
+```{r}
+
+pacman::p_load(tidyverse,
+               sf, 
+               geomander)
+
+```
+
+A couple of these packages are new! What do they do? How do we check. 
+
+
+## Preparing Data
+
+`geomander` gives us access to some tidy geographic data.
+Let's look at your (new) home!
+
+```{r}
+?get_alarm
+ma <- get_alarm('MA')
+```
+We can take a glimpse of what's in the data:
+
+```{r}
+glimpse(ma)
+```
+
+Let's zoom into two counties, Middlesex and Suffolk.
+Cambridge and Somerville are in Middlesex County.
+
+```{r}
+counties <- c('Middlesex County', 'Suffolk County')
+
+# Two ways to do this
+boston <- ma %>% 
+  filter(county %in% counties)
+
+# or 
+
+boston <- ma %>% 
+  filter(county == 'Middlesex County'| county == 'Suffolk County')
+
+```
+
+## Lets take a look at the dataset boston, notice anything different? What is the last column?
+
+```{r}
+ head(boston)
+```
+## Shapefiles and Geometry
+
+The boston data file is something called a shapefile-- That means, that it includes a geometry column, and this geometry column includes a point or polygon, but more often polygon, for each row. 
+
+We can investigate the geometry by plotting it quickly in base R. 
+
+```{r}
+plot(boston$geometry)
+```
+
+
+And just like that, we're off to the races.
+
+## Making a Map
+
+Making the first map is _very_ easy with `sf` and the `tidyverse`. 
+Just use the `geom_sf()` geometry.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf()
+```
+
+We can add aesthetics to the map, such as `fill`ing in the counties with color.
+We want to point `ggplot` to the column in `boston` with the counties, `county`.
+We tell it to use a variable by wrapping it in `aes()`.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county))
+```
+Now the beauty of a ggplot is that we can change _everything_ about it.
+
+First, let's make the grey lines disappear by making them `NA`.
+The lines are controlled by the `color`.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA)
+```
+
+Note that the color goes _outside_ of the `aes()` call! We're not evaluating a column, we're just instructing `ggplot` what color we want it to be.
+
+
+We can also change the fill colors for the counties by adding a scale.
+All scales work like `scale_[aesthetic]_[some description]`.
+We use the `viridis` `d`iscrete palette.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA) +
+  scale_fill_viridis_d()
+```
+
+But for two colors, that a bit aggressive, so let's use a different variant:
+(Maybe turbo!)
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA) +
+  scale_fill_viridis_d(option = 'turbo')
+```
+Now we're getting somewhere. 
+But our labels already tell us the fill colors are for counties, so let's remove the word county from the legend.
+To the scale, we set the `name` argument.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA) +
+  scale_fill_viridis_d(name = "", option = 'turbo')
+```
+Alternatively, we can use the `labs()` function to change any label.
+I prefer to do it in the `scale` but it's about what you like.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA) +
+  scale_fill_viridis_d(option = 'turbo') +
+  labs(fill = '')
+```
+
+now, let's spruce up the background.
+Latitude and Longitude don't really add anything. 
+We can add a `theme` function to make it blank.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA) +
+  scale_fill_viridis_d(option = 'turbo') +
+  labs(fill = '') +
+  theme_void()
+```
+Finally, let's add a title
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county), color = NA) +
+  scale_fill_viridis_d(option = 'turbo') +
+  labs(fill = '') +
+  theme_void() +
+  ggtitle('The Boston Area')
+```
+
+You can also use `labs()` instead of `ggtitle()`
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county, color = county)) +
+  scale_fill_viridis_d(option = 'turbo') +
+  scale_color_viridis_d(option = 'turbo') +
+  labs(fill = '', title = 'The Boston Area, still') +
+  theme_void()
+```
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = county, color = county)) +
+  scale_fill_viridis_d(option = 'turbo') +
+  scale_color_viridis_d(option = 'turbo', guide = 'none') +
+  labs(fill = '', title = 'The Boston Area, still') +
+  theme_void()
+```
+
+# Continuous Data
+
+Maybe the counties are kinda boring.
+Let's get a sense of the politics of your (new) home.
+
+We start with the same basic blank plot.
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf()
+```
+And suppose we want Democratic two party vote share, based on the recent presidential election.
+That's going to be ([votes for Biden]) / ([votes for Biden] + [votes for Trump])
+We need to create that variable.
+
+```{r}
+glimpse(boston)
+
+boston <- boston %>% 
+  mutate(dvs = pre_20_dem_bid / (pre_20_dem_bid + pre_20_rep_tru))
+```
+
+Now we can add this to our plot:
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs))
+```
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA)
+```
+
+Before we could use a default scale, this time we can make our own.
+We can use `scale_fill_gradient2()`, which requires a `low` and a `high` color.
+If you're a nerd like me and play around with hexcodes for colors:
+ - `'#A0442C'` makes a great Republican red 
+ - `'#0063B1'` makes a great Democratic blue
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1')
+```
+
+We can add a name like before.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1', name = 'Dem.\nVote Share')
+```
+But we need to clean this up since the vote share is super off center.
+We can set the limits to be 0 to 1 for fractions, with a midpoint of 0.5.
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1', name = 'Dem.\nVote Share',
+                       limits = c(0, 1), midpoint = 0.5)
+```
+
+Finally, we can add use a blank theme!
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1', name = 'Dem.\nVote Share',
+                       limits = c(0, 1), midpoint = 0.5) +
+  theme_void()
+```
+
+But some regions are _so_ mixes on the edges, that we lose it into the background.
+We can use the magic of themes to fix that.
+The trick is to change all the options to theme that describe a background for the `plot` and `panel`:
+
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1', name = 'Dem.\nVote Share',
+                       limits = c(0, 1), midpoint = 0.5) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = 'black')
+  )
+```
+
+Oh no, but we lose the text:
+
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1', name = 'Dem.\nVote Share',
+                       limits = c(0, 1), midpoint = 0.5) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = 'black'),
+    text = element_text(color = 'white')
+  )
+```
+
+```{r}
+boston %>% 
+  ggplot() +
+  geom_sf(aes(fill = dvs), color = NA) +
+  scale_fill_gradient2(low = '#A0442C', high = '#0063B1', name = 'Dem.\nVote Share',
+                       limits = c(0, 1), midpoint = 0.5, label = scales::percent) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = 'black'),
+    text = element_text(color = 'white')
+  )
+```
+
+Be careful on the road ahead, adjusting ggplots is one of the most dangerous aspects of grad school.
+
+## Exercise
+
+I've shared with you two separate shape files from my dissertation research. The first is a map of Afghanistan's road network 'Afghanistan_Road_Network.zip". The second is a map of Afghanistan's wheat production by district. 
+```{r}
+afg_roads<-st_read("/Users/mariaballesteros/Dropbox/Harvard/Research Projects/Refugee flows after security transitions/Data/Geography/Roads/Afghanistan_Road_Network/Afghanistan_Road_Network.shp")
+```
+
+
+## First, open the zip files, what do you see? 
+
+Shapefiles are often folders composed of a .shp file, which is the main file, and other auxiliary files. It is important that you keep the other files in the folder, but you'll be working with the file with termination .shp. 
+
+
+
+## Now load the data into R. Hint: the package sf has a function to read in shapefiles
+
+```{r}
+roads<- st_read("/Users/mariaballesteros/Dropbox/Harvard/Research Projects/Refugee flows after security transitions/Data/Geography/Roads/Afghanistan_Road_Network/Afghanistan_Road_Network.shp")
+
+wheat<- st_read("/Users/mariaballesteros/Dropbox/Harvard/Research Projects/Refugee flows after security transitions/Data/Geography/wheat/wheat by district.shp")
+```
+
+
+## Using ggplot, create a map of Afghanistan where every district (DISTID) is filled by the mean amount of wheat producing land in that district. Add a title and lengend, modify the theme, and change the scale to make the graph readable. 
+
+```{r}
+ggplot()+
+  geom_sf(data= wheat, aes(fill = X_mean))
+  
+```
+
+
+## Now, generate a map that overlays Afghanistan's roadnetwork onto the districts filled by wheat production, what do you see? Hint: To plot two datasets in one ggplot, move the data argument from the ggplot() call to the geom objects. 
+
+
+```{r}
+
+ggplot()+
+  geom_sf(data= wheat, aes(fill = X_mean))+
+  geom_sf(data=roads)
+  
+```
+## Color the roads by road type. What do you see now? Exclude the NA values for Road Type. What do you see now?
+
+```{r}
+
+roads<-subset(roads, !is.na(ROAD_TYPE))
+
+ggplot()+
+  geom_sf(data= wheat, aes(fill = X_mean))+
+  geom_sf(data=roads, aes(color = ROAD_TYPE))
+  
+```

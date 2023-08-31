@@ -1,0 +1,96 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+
+\input{pp_preamble.tex}
+
+\begin{document}
+
+\setcounter{section}{4}
+
+\begin{exercise}[Probability]
+\protect\hypertarget{exr:prob1}{}\label{exr:prob1}
+
+Suppose you had a pair of four-sided dice. You sum the results from a single toss. Let us call this sum, or the outcome, X.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  What is \(P(X = 5)\), \(P(X = 3)\), \(P(X = 6)\)?
+\item
+  What is \(P(X=5 \cup X = 3)^C\)?
+\end{enumerate}
+
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item $P(X = 5) = \frac{4}{16}$, $P(X = 3) = \frac{2}{16}$, $P(X = 6) = \frac{3}{16}$
+\item $P(X=5 \cup X = 3)^C = \frac{10}{16}$
+\end{enumerate}
+\end{answer}
+
+\begin{example}[Bayes' Rule]
+\protect\hypertarget{exm:bayesrule}{}\label{exm:bayesrule}In a given town, 40\% of the voters are Democrat and 60\% are Republican. The president's budget is supported by 50\% of the Democrats and 90\% of the Republicans. If a randomly (equally likely) selected voter is found to support the president's budget, what is the probability that they are a Democrat?
+\end{example}
+
+\begin{answer}
+We are given that
+$$P(D) = .4, P(D^c) = .6, P(S|D) = .5, P(S|D^c) = .9$$
+Using this, Bayes' Law and the Law of Total Probability, we know: 
+
+$$P(D|S) = \frac{P(D)P(S|D)}{P(D)P(S|D) + P(D^c)P(S|D^c)}$$
+$$P(D|S) = \frac{.4 \times .5}{.4 \times .5 + .6 \times .9 } = .27$$
+\end{answer}
+
+\begin{exercise}[Expectation and Variance]
+\protect\hypertarget{exr:expvar}{}\label{exr:expvar}
+
+Suppose we have a PMF with the following characteristics:
+\begin{eqnarray*}
+  P(X = -2) = \frac{1}{5}\\
+  P(X = -1) = \frac{1}{6}\\
+  P(X = 0) = \frac{1}{5}\\
+  P(X = 1) = \frac{1}{15}\\
+  P(X = 2) = \frac{11}{30}
+\end{eqnarray*}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Calculate the expected value of X
+\end{enumerate}
+
+Define the random variable \(Y = X^2\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  Calculate the expected value of Y. (Hint: It would help to derive the PMF of Y first in order to calculate the expected value of Y in a straightforward way)
+\item
+  Calculate the variance of X.
+\end{enumerate}
+
+\end{exercise}
+
+\begin{answer}
+\noindent
+\begin{enumerate}
+\item $E(X) = -2(\frac{1}{5}) + -1(\frac{1}{6}) + 0(\frac{1}{5}) + 1(\frac{1}{15}) + 2(\frac{11}{30}) = \frac{7}{30}$
+\item $E(Y) = 0(\frac{1}{5}) + 1(\frac{7}{30}) + 4(\frac{17}{30}) = \frac{5}{2}$
+\item \begin{align*}
+\text{Var}(X) &= E[X^2] - E[X]^2\\
+&= E(Y) - E(X)^2\\
+&= \frac{5}{2} - \frac{7}{30}^2 \approx 2.45
+\end{align*}
+\end{enumerate}
+\end{answer}
+
+
+\end{document}

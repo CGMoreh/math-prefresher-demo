@@ -1,0 +1,152 @@
+---
+title: 'Day 3: Functions and Loops'
+author: "María Ballesteros"
+date: "2023-08-24"
+runtime: slidy
+output:
+  slidy_presentation:
+    df_print: paged
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+
+library(ggplot2)
+library(tidyverse)
+library(pacman)
+```
+
+
+# Check Point
+
++ On a scale of 1-10, how are you feeling about the material covered yesterday?
++ Any questions? 
++ Did you have anything good for dinner yesterday?
++ Did you do anything fun? 
+
+
+# 20 minute ice breaker
+
+You all wrote about your research interests in your statement of purpose, and did an amazing job (or else you would not be here)
+
++ What is one specific research question that you are excited to work on? 
++ What is one computational skill that you are hoping to learn to help answer that question? 
+
+# Today's structue
+
++ Afternoon Session 1: Functions
++ Afternoon Session 2: Loops
+
+# A new type of object: Lists
+
++  Lists are one of the most generic and flexible type of object. You can make an empty list by the function `list()`
+
+```{r}
+my_list <- list()
+my_list
+```
++ Think of lists sort of like collections of vectors and matrices
+
+# Lists
+
++ And start filling it in. Slots on the list are invoked by double square brackets `[[]]`
+
+my_list[[1]] <- "Chris"
+my_list
+
++ each slot can be anything. 
+  + What are we doing here? 
+  + We are defining the 1st slot of the list `my_list` to be a vector `c(1, 2, 3, 4, 5)`
+  
+```{r}
+my_list[[2]] <- 1:5
+my_list
+
+```
+
+
++ You can even make nested lists. Let's say we want the 1st slot of the list to be another list of three elements. 
+
+
+```{r}
+my_list[[2]][[1]] <- "R"
+my_list
+```
+
+# Objects and classes
+
++ There are an infinite number of objects, because people make their own class of object. You can detect the type of the object (the class) by the function `class`
+
+```{r}
+class(my_list)  <- "Rstudio"
+```
++ To change or create the class of any object, you can _assign_ it. To do this, assign the name of your class to character to an object's `class()`. 
+
++ We can start from a simple list. For example, say we wanted to store data about pokemon. 
++Because there is no pre-made package for this, we decide to make our own class. 
+
+
+```{r}
+ 
+pikachu <- list(name = "Pikachu",
+                number = 25,
+                type = "Electric",
+                color = "Yellow")
+pikachu
+```
+
++ Like in base R, lists also have a specific "grammar"
+  + One bracket calls the objects within the list
+  + two brackets call specific components
+```{r}
+pikachu[2] # notice how it calling the entire "number" component
+pikachu[[2]] #VS just the value 25
+
+# To add more pokemon to the list, I can just replace the values in a component
+
+pikachu[[1]] <- c("pikachu", "charmander")
+
+# or
+
+pikachu[[1]] <- c(pikachu[[1]],  "Eevee") # Since the output of pikachu[[1]]  is a vector, I can just add more to it
+```
+
+
++ and we can give it any class name we want. 
+class(pikachu) <- "pokemon"
+
+
+# Functions
+
++ Objects can also have the class function.
+  + All the functions that we use are objects that we load when we pull up libraries.
+  + However, we can also create our own functions. 
+  
+Basic structure of a function  
+```{r}
+sum_1<-function(x){
+  x+1
+}
+
+sum_1(x=4)
+
+```
+
+# lapply and sapply
+
++ We can also apply functions to multiple things at once:
+  + To apply function accross a vector: lapply
+  + To apply function accross a matrix: sapply
+  
+```{r}
+all<- c(1:10)
+
+lapply(all, sum_1)
+```
+
+
+
